@@ -2,6 +2,6 @@
 
 A new Flutter project.
 
-## Branch List
+## Desc
 
-Submission 1 -> Implementasi Desain UI
+Implementasi Desain UI Flutter dengan data dari file json
