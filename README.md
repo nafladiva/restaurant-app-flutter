@@ -4,4 +4,5 @@ A new Flutter project.
 
 ## Branch List
 
-Submission 1 -> Implementasi Desain UI
+Submission1 -> Implementasi Desain UI
+Submission2 -> Pembuatan flutter app dengan mendapatkan data dari API
