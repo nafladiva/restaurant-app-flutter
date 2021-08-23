@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restail/model/onboarding_content.dart';
-import 'package:restail/home_page.dart';
+import 'package:restail/data/model/onboarding_content.dart';
+import 'package:restail/ui/home_page.dart';
 
 class OnBoarding extends StatefulWidget {
   @override
@@ -60,7 +60,7 @@ class _OnBoardingState extends State<OnBoarding> {
                         child: Text(
                           contents[index].title,
                           style: TextStyle(
-                            fontSize: 30.0,
+                            fontSize: 24.0,
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.bold,
                           ),
