@@ -1,4 +1,4 @@
-# restail
+# Restail
 
 A new Flutter project.
 
