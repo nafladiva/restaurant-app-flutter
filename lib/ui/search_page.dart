@@ -113,7 +113,26 @@ class SearchPage extends StatelessWidget {
                                               fontFamily: 'Montserrat',
                                             ),
                                           ),
-                                          Text(item.city),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 8.0),
+                                            child: RichText(
+                                              text: TextSpan(
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontFamily: 'Montserrat',
+                                                  fontSize: 16.0,
+                                                ),
+                                                children: [
+                                                  WidgetSpan(
+                                                    child: Icon(
+                                                        Icons.location_pin),
+                                                  ),
+                                                  TextSpan(text: item.city),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
