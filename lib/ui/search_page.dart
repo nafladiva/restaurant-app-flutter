@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restail/data/api/api_service.dart';
 import 'package:restail/provider/restaurant_search_provider.dart';
+import 'package:restail/widgets/error.dart';
 
 class SearchPage extends StatelessWidget {
   final String search;
@@ -48,6 +49,7 @@ class SearchPage extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Center(
                   child: Text(
+                    // search,
                     search,
                     style: TextStyle(
                       color: Colors.black,
@@ -69,7 +71,7 @@ class SearchPage extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.only(top: 24.0, bottom: 14.0),
                       child: Column(
-                          children: state.result.restaurants.map((item) {
+                          children: state.result!.restaurants.map((item) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20.0, vertical: 7.0),
@@ -179,40 +181,7 @@ class SearchPage extends StatelessWidget {
                       ],
                     );
                   } else if (state.state == ResultState.Error) {
-                    return Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(14.0),
-                            child: Image.asset('images/error.png'),
-                          ),
-                          SizedBox(
-                            height: 14.0,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: Text(
-                              'Oh no! :(',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 26.0,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Montserrat',
-                              ),
-                            ),
-                          ),
-                          Text(
-                            'We are sorry! The data is failed to load. Check your internet connection or you can try to close the app and reopen it again!',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 14.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
+                    return ErrorScreen();
                   } else {
                     return Center(child: Text(''));
                   }

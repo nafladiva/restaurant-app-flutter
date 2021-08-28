@@ -28,6 +28,7 @@ class RestaurantDetailProvider extends ChangeNotifier {
       _state = ResultState.Loading;
       notifyListeners();
       final restaurant = await apiService.getDetail(restaurantId);
+
       if (restaurant.restaurants.isEmpty) {
         _state = ResultState.NoData;
         notifyListeners();

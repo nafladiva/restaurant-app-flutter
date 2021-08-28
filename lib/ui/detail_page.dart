@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restail/data/api/api_service.dart';
+import 'package:restail/data/model/restaurant.dart';
+import 'package:restail/provider/db_provider.dart';
 import 'package:restail/provider/restaurant_detail_provider.dart';
+import 'package:restail/widgets/error.dart';
 
 class DetailRestaurant extends StatelessWidget {
   final String restaurantId;
+  late bool _isFavorite = false;
 
   DetailRestaurant({required this.restaurantId});
 
   @override
   Widget build(BuildContext context) {
+    final favorites = Provider.of<DBProvider>(context).favorites;
+
+    for (var fav in favorites) {
+      if (fav.id_restaurant == restaurantId) {
+        _isFavorite = true;
+      }
+    }
+
     return ChangeNotifierProvider<RestaurantDetailProvider>(
       create: (_) => RestaurantDetailProvider(
           apiService: ApiService(), restaurantId: restaurantId),
@@ -59,20 +71,58 @@ class DetailRestaurant extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 32.0, left: 20.0),
-                              child: CircleAvatar(
-                                backgroundColor:
-                                    Color(0xFFFFC107).withOpacity(0.7),
-                                child: IconButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  icon: Icon(
-                                    Icons.arrow_back,
-                                    color: Colors.white,
+                              padding: const EdgeInsets.only(
+                                  top: 32.0, left: 20.0, right: 20.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor:
+                                        Color(0xFFFFC107).withOpacity(0.7),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: Icon(
+                                        Icons.arrow_back,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        if (_isFavorite == false) {
+                                          final favorite =
+                                              RestaurantFavorite.fromMap({
+                                            'id_restaurant': restaurantId,
+                                            'name': restaurant['name'],
+                                            'pictureId':
+                                                restaurant['pictureId'],
+                                            'city': restaurant['city'],
+                                          });
+
+                                          Provider.of<DBProvider>(context,
+                                                  listen: false)
+                                              .addFavorite(favorite);
+                                        } else {
+                                          Provider.of<DBProvider>(context,
+                                                  listen: false)
+                                              .deleteFavorite(restaurantId);
+                                        }
+                                        _isFavorite = !_isFavorite;
+                                      },
+                                      icon: Icon(
+                                        _isFavorite
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color: Colors.pink,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Container(
@@ -501,40 +551,7 @@ class DetailRestaurant extends StatelessWidget {
                 ),
               );
             } else if (state.state == ResultState.Error) {
-              return Padding(
-                padding: const EdgeInsets.all(22.0),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(14.0),
-                      child: Image.asset('images/error.png'),
-                    ),
-                    SizedBox(
-                      height: 14.0,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Text(
-                        'Oh no! :(',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Montserrat',
-                        ),
-                      ),
-                    ),
-                    Text(
-                      'We are sorry! The data is failed to load. Check your internet connection or you can try to close the app and reopen it again!',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ],
-                ),
-              );
+              return ErrorScreen();
             } else {
               return Center(child: Text(''));
             }

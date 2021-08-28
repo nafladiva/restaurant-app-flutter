@@ -20,6 +20,13 @@ class RestaurantResult {
           json["restaurants"].map((item) => Restaurant.fromJson(item)),
         ),
       );
+
+  Map<String, dynamic> toJson() => {
+        'error': error,
+        'message': message,
+        'count': count,
+        'restaurants': List<dynamic>.from(restaurants.map((x) => x.toJson())),
+      };
 }
 
 class RestaurantSearch {
@@ -64,6 +71,15 @@ class Restaurant {
         city: json['city'],
         rating: json['rating'].toDouble(),
       );
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'description': description,
+        'pictureId': pictureId,
+        'city': city,
+        'rating': rating,
+      };
 }
 
 class RestaurantResultDetail {
@@ -118,4 +134,31 @@ class RestaurantDetail {
         drinks: json['menus']['drinks'],
         customerReviews: json['customerReviews'],
       );
+}
+
+class RestaurantFavorite {
+  late String id_restaurant, name, pictureId, city;
+
+  RestaurantFavorite({
+    required this.id_restaurant,
+    required this.name,
+    required this.pictureId,
+    required this.city,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id_restaurant': id_restaurant,
+      'name': name,
+      'pictureId': pictureId,
+      'city': city,
+    };
+  }
+
+  RestaurantFavorite.fromMap(Map<String, dynamic> map) {
+    id_restaurant = map['id_restaurant'];
+    name = map['name'];
+    pictureId = map['pictureId'];
+    city = map['city'];
+  }
 }

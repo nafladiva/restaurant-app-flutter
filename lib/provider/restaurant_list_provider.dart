@@ -8,7 +8,7 @@ class RestaurantProvider extends ChangeNotifier {
   late ApiService apiService;
 
   RestaurantProvider({required this.apiService}) {
-    _fetchAllRestaurant();
+    fetchAllRestaurant();
   }
 
   late RestaurantResult _restaurantResult;
@@ -21,11 +21,12 @@ class RestaurantProvider extends ChangeNotifier {
 
   ResultState get state => _state;
 
-  Future<dynamic> _fetchAllRestaurant() async {
+  Future<dynamic> fetchAllRestaurant() async {
     try {
       _state = ResultState.Loading;
       notifyListeners();
       final restaurant = await apiService.getRestaurantList();
+
       if (restaurant.restaurants.isEmpty) {
         _state = ResultState.NoData;
         notifyListeners();

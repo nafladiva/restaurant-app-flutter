@@ -12,13 +12,13 @@ class RestaurantSearchProvider extends ChangeNotifier {
     _fetchAllRestaurant();
   }
 
-  late RestaurantSearch _restaurantResult;
+  RestaurantSearch? _restaurantResult;
   String _message = '';
   late ResultState _state;
 
   String get message => _message;
 
-  RestaurantSearch get result => _restaurantResult;
+  RestaurantSearch? get result => _restaurantResult;
 
   ResultState get state => _state;
 
@@ -27,6 +27,7 @@ class RestaurantSearchProvider extends ChangeNotifier {
       _state = ResultState.Loading;
       notifyListeners();
       final restaurant = await apiService.search(query);
+
       if (restaurant.restaurants.isEmpty) {
         _state = ResultState.NoData;
         notifyListeners();
