@@ -6,25 +6,31 @@ import 'package:restail/provider/db_provider.dart';
 import 'package:restail/provider/restaurant_detail_provider.dart';
 import 'package:restail/widgets/error.dart';
 
-class DetailRestaurant extends StatelessWidget {
+class DetailRestaurant extends StatefulWidget {
   final String restaurantId;
-  late bool _isFavorite = false;
 
   DetailRestaurant({required this.restaurantId});
+
+  @override
+  _DetailRestaurantState createState() => _DetailRestaurantState();
+}
+
+class _DetailRestaurantState extends State<DetailRestaurant> {
+  late bool _isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
     final favorites = Provider.of<DBProvider>(context).favorites;
 
     for (var fav in favorites) {
-      if (fav.id_restaurant == restaurantId) {
+      if (fav.idRestaurant == widget.restaurantId) {
         _isFavorite = true;
       }
     }
 
     return ChangeNotifierProvider<RestaurantDetailProvider>(
       create: (_) => RestaurantDetailProvider(
-          apiService: ApiService(), restaurantId: restaurantId),
+          apiService: ApiService(), restaurantId: widget.restaurantId),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Consumer<RestaurantDetailProvider>(
@@ -97,7 +103,8 @@ class DetailRestaurant extends StatelessWidget {
                                         if (_isFavorite == false) {
                                           final favorite =
                                               RestaurantFavorite.fromMap({
-                                            'id_restaurant': restaurantId,
+                                            'id_restaurant':
+                                                widget.restaurantId,
                                             'name': restaurant['name'],
                                             'pictureId':
                                                 restaurant['pictureId'],
@@ -110,7 +117,8 @@ class DetailRestaurant extends StatelessWidget {
                                         } else {
                                           Provider.of<DBProvider>(context,
                                                   listen: false)
-                                              .deleteFavorite(restaurantId);
+                                              .deleteFavorite(
+                                                  widget.restaurantId);
                                         }
                                         _isFavorite = !_isFavorite;
                                       },

@@ -321,7 +321,7 @@ class _HomePageState extends State<HomePage> {
                                           onTap: () {
                                             Navigator.pushNamed(
                                                 context, '/detail',
-                                                arguments: item.id_restaurant);
+                                                arguments: item.idRestaurant);
                                           },
                                           child: Container(
                                             padding:

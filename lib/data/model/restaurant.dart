@@ -137,10 +137,10 @@ class RestaurantDetail {
 }
 
 class RestaurantFavorite {
-  late String id_restaurant, name, pictureId, city;
+  late String idRestaurant, name, pictureId, city;
 
   RestaurantFavorite({
-    required this.id_restaurant,
+    required this.idRestaurant,
     required this.name,
     required this.pictureId,
     required this.city,
@@ -148,7 +148,7 @@ class RestaurantFavorite {
 
   Map<String, dynamic> toMap() {
     return {
-      'id_restaurant': id_restaurant,
+      'id_restaurant': idRestaurant,
       'name': name,
       'pictureId': pictureId,
       'city': city,
@@ -156,7 +156,7 @@ class RestaurantFavorite {
   }
 
   RestaurantFavorite.fromMap(Map<String, dynamic> map) {
-    id_restaurant = map['id_restaurant'];
+    idRestaurant = map['id_restaurant'];
     name = map['name'];
     pictureId = map['pictureId'];
     city = map['city'];
