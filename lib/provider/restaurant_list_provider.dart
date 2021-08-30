@@ -5,7 +5,7 @@ import 'package:restail/data/model/restaurant.dart';
 enum ResultState { Loading, NoData, HasData, Error }
 
 class RestaurantProvider extends ChangeNotifier {
-  late ApiService apiService;
+  final ApiService apiService;
 
   RestaurantProvider({required this.apiService}) {
     fetchAllRestaurant();

@@ -51,7 +51,7 @@ class FavoritePage extends StatelessWidget {
                         child: InkWell(
                           onTap: () {
                             Navigator.pushNamed(context, '/detail',
-                                arguments: item.id_restaurant);
+                                arguments: item.idRestaurant);
                           },
                           child: Container(
                             width: double.infinity,
