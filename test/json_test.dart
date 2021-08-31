@@ -64,7 +64,7 @@ void main() {
   RestaurantResult restaurantResult;
   RestaurantSearch restaurantSearch;
 
-  var apiService = MockApiService();
+  ApiService apiService = MockApiService();
   when(apiService.getRestaurantList())
       .thenAnswer((_) async => RestaurantResult.fromJson(responseList));
   when(apiService.search('kafein'))
