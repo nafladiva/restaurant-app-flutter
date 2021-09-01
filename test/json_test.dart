@@ -63,14 +63,16 @@ const testSearch = {
 void main() {
   RestaurantResult restaurantResult;
   RestaurantSearch restaurantSearch;
-
-  ApiService apiService = MockApiService();
-  when(apiService.getRestaurantList())
-      .thenAnswer((_) async => RestaurantResult.fromJson(responseList));
-  when(apiService.search('kafein'))
-      .thenAnswer((_) async => RestaurantSearch.fromJson(responseSearch));
+  late ApiService apiService;
 
   group('Json Parse test', () {
+    setUp(() {
+      apiService = MockApiService();
+      when(apiService.getRestaurantList())
+          .thenAnswer((_) async => RestaurantResult.fromJson(responseList));
+      when(apiService.search('kafein'))
+          .thenAnswer((_) async => RestaurantSearch.fromJson(responseSearch));
+    });
     test('verify that restaurant list json parsed as expected', () async {
       restaurantResult = await apiService.getRestaurantList();
       var data = Restaurant.fromJson(testRestaurant);
