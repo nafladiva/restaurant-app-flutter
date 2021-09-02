@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:restail/data/api/api_service.dart';
 import 'package:restail/data/model/restaurant.dart';
+import 'package:http/http.dart' as http;
 
 import 'json_test.mocks.dart';
 
@@ -59,22 +62,21 @@ const testSearch = {
   "rating": 4.6
 };
 
-@GenerateMocks([ApiService])
+@GenerateMocks([http.Client])
 void main() {
   RestaurantResult restaurantResult;
   RestaurantSearch restaurantSearch;
-  late ApiService apiService;
+  ApiService apiService;
 
   group('Json Parse test', () {
-    setUp(() {
-      apiService = MockApiService();
-      when(apiService.getRestaurantList())
-          .thenAnswer((_) async => RestaurantResult.fromJson(responseList));
-      when(apiService.search('kafein'))
-          .thenAnswer((_) async => RestaurantSearch.fromJson(responseSearch));
-    });
+    final client = MockClient();
+    apiService = ApiService();
     test('verify that restaurant list json parsed as expected', () async {
-      restaurantResult = await apiService.getRestaurantList();
+      when(client.get(Uri.parse('https://restaurant-api.dicoding.dev/list')))
+          .thenAnswer(
+              (_) async => http.Response(json.encode(responseList), 200));
+
+      restaurantResult = await apiService.getListTest(client);
       var data = Restaurant.fromJson(testRestaurant);
 
       expect(restaurantResult.restaurants[0].id, data.id);
@@ -86,7 +88,12 @@ void main() {
     });
 
     test('verify that restaurant search json parsed as expected', () async {
-      restaurantSearch = await apiService.search('kafein');
+      when(client.get(
+              Uri.parse('https://restaurant-api.dicoding.dev/search?q=kafein')))
+          .thenAnswer(
+              (_) async => http.Response(json.encode(responseSearch), 200));
+
+      restaurantSearch = await apiService.searchTest(client, 'kafein');
       var data = Restaurant.fromJson(testSearch);
 
       expect(restaurantSearch.restaurants[0].id, data.id);

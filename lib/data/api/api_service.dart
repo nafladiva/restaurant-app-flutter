@@ -15,8 +15,28 @@ class ApiService {
     }
   }
 
+  Future<RestaurantResult> getListTest(http.Client client) async {
+    final response = await client.get(Uri.parse(_baseUrl + 'list'));
+    if (response.statusCode == 200) {
+      return RestaurantResult.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load list restaurant');
+    }
+  }
+
   Future<RestaurantSearch> search(String query) async {
     final response = await http.get(Uri.parse(_baseUrl + 'search?q=' + query));
+
+    if (response.statusCode == 200) {
+      return RestaurantSearch.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load searched data');
+    }
+  }
+
+  Future<RestaurantSearch> searchTest(http.Client client, String query) async {
+    final response =
+        await client.get(Uri.parse(_baseUrl + 'search?q=' + query));
 
     if (response.statusCode == 200) {
       return RestaurantSearch.fromJson(json.decode(response.body));
