@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:restail/data/api/api_service.dart';
 import 'package:restail/data/model/restaurant.dart';
@@ -30,7 +31,7 @@ class _DetailRestaurantState extends State<DetailRestaurant> {
 
     return ChangeNotifierProvider<RestaurantDetailProvider>(
       create: (_) => RestaurantDetailProvider(
-          apiService: ApiService(), restaurantId: widget.restaurantId),
+          apiService: ApiService(Client()), restaurantId: widget.restaurantId),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Consumer<RestaurantDetailProvider>(

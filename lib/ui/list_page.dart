@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:restail/data/api/api_service.dart';
 import 'package:restail/provider/restaurant_list_provider.dart';
@@ -8,7 +9,7 @@ class RestaurantList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<RestaurantProvider>(
-      create: (_) => RestaurantProvider(apiService: ApiService()),
+      create: (_) => RestaurantProvider(apiService: ApiService(Client())),
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(

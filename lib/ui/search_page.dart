@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:restail/data/api/api_service.dart';
 import 'package:restail/provider/restaurant_search_provider.dart';
@@ -12,8 +13,8 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<RestaurantSearchProvider>(
-      create: (_) =>
-          RestaurantSearchProvider(apiService: ApiService(), query: search),
+      create: (_) => RestaurantSearchProvider(
+          apiService: ApiService(Client()), query: search),
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(

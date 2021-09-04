@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:restail/data/api/api_service.dart';
 import 'package:restail/data/model/restaurant.dart';
@@ -35,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: ChangeNotifierProvider<RestaurantProvider>(
-        create: (_) => RestaurantProvider(apiService: ApiService()),
+        create: (_) => RestaurantProvider(apiService: ApiService(Client())),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
